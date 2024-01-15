@@ -6,20 +6,19 @@ def load(paths):
         print(path)
         loader = PyPDFLoader(path)
         docs = docs + loader.load_and_split()
-    contents = [doc.page_content for doc in docs]
-    contents = clean(contents)
-    return contents
+    docs = clean(docs)
+    return docs
 
 
 sequences_to_clean = [
     '\n',
     '\xa0'
     ]
-def clean(chunks):
-    for chunk in chunks:
+def clean(docs):
+    for doc in docs:
         for seq in sequences_to_clean:
-            chunk = chunk.replace(seq, "")
-    return chunks
+            doc.page_content = doc.page_content.replace(seq, "")
+    return docs
 
 
 # for debugging
